@@ -1,9 +1,0 @@
-first do the backend stuff like the configuration and setup of the appwrite, also the env file and conf configuration.
-
-secondly do the state management using redux toolkit.
-
-setup the app.jsx 
- 
-setup the provider in main.jsx
-
-input field alag component and use it every where
