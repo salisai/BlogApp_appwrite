@@ -3,7 +3,7 @@ import {Editor} from '@tinymce/tinymce-react'
 import { Controller } from 'react-hook-form'
 
 
-const RTE = ({name, control,label,defaultValue=""}) => {//control => from react-hook-form to transfer state to that component 
+const RTE = ({name, control, label, defaultValue=""}) => {
   return (
     <div className='w-full '>
         {label && <label className='inline-block mb-1 pl-1'>{label}</label>}
@@ -12,6 +12,7 @@ const RTE = ({name, control,label,defaultValue=""}) => {//control => from react-
          name={name || "content"}
          control={control}
          render={({field: {onChange}})=>(
+            
             <Editor
              initialValue={defaultValue}
              onEditorChange={onChange}
@@ -36,9 +37,5 @@ const RTE = ({name, control,label,defaultValue=""}) => {//control => from react-
   )
 }
 
-//control => from react-hook-form, responsible to send its state to that form
-//means that it will transfer control to the react-hook-form
-
-//reference kesai melega if you used this editor somewhere
 
 export default RTE

@@ -6,21 +6,20 @@ import { Link } from 'react-router-dom'
 const PostCard = ({
     $id,
     title,
-    featuredImage
+    featuredimage
 }) => {
-  return (
-    //clickable card
-    //jaha par ho wah say agay jana
-    //in appwrite variable $id like _id in mongodb
-    
-    <Link to={`/post;${$id}`}>
-        <div className='w-full bg-gray-100 rounded-xl p-4'>
-            <div className='w-full justify-center mb-4'>
-                <img src={appwriteService.getFilePreview(featuredImage)} 
-                className='rounded-xl' alt={title} />
 
+  return (
+    <Link to={`/post/${$id}`}>
+        <div className='w-full bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden'>
+            <div className='w-full h-48 md:h-56 overflow-hidden'>
+                <img src={appwriteService.getFilePreview(featuredimage)} 
+                className='w-full h-full object-cover hover:scale-105 transition-transform duration-300' 
+                alt={title} 
+                />
             </div>
-            <h2 className='text-xl font-bold'>{title}</h2>
+            
+            <h2 className='text-lg md:text-xl font-semibold text-gray-900 line-clamp-2'>{title}</h2>
         </div>
     </Link>
   )

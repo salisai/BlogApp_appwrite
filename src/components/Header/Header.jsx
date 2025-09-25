@@ -1,87 +1,61 @@
 import React from 'react'
 import {Container, Logo, LogoutBtn} from '../index'
-import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-
-
+import { useNavigate, Link } from 'react-router-dom'
 
 const Header = () => {
 
-  //useSelector => hook, allows u to access the redux store's state within a react component.
-  //state => represent the entire redux state object
-  //state.auth.status => accessing the status property within the auth slice of the redux state.
-  //authStatus => holds the value of state.auth.status
-  const authStatus = useSelector((state)=>state.auth.status)
+  const authenticated = useSelector((state)=>state.auth.isAuthenticated)
   const navigate = useNavigate()
-  //useNavigate=> returns a function that can be used to progrrammatically navigate to different routes within your application.
 
-
-  //benefits => make object and add one nav item
   const navItems = [
-    {
-      name: 'Home',
-      slug: "/",//slug means url kaha par ja raha hai, slug or url
-      active: true
-    }, 
-    {
-      name: "Login",
-      slug: "/login",
-      active: !authStatus,
-  },
-  {
-      name: "Signup",
-      slug: "/signup",
-      active: !authStatus,
-  },
-  {
-      name: "All Posts",
-      slug: "/all-posts",
-      active: authStatus,
-  },
-  {
-      name: "Add Post",
-      slug: "/add-post",
-      active: authStatus,
-  },
-  ]
+    { name: "Home", slug: "/", active: true },
+    { name: "Login", slug: "/login", active: !authenticated },
+    { name: "Signup", slug: "/signup", active: !authenticated },
+    { name: "Articles", slug: "/all-posts", active: authenticated },
+    { name: "Write", slug: "/add-post", active: authenticated },
+  ];
 
   return (
-    <header className='py-3 shadow bg-gray-500'>
+    <header className='sticky top-0 z-50 bg-white shadow-sm'>
       <Container>
-        <nav className='flex'>
+        <nav className='flex items-center justify-between py-3'>
+          {/* Logo */}
           <div className='mr-4'>
             <Link to='/'>
-              <Logo width='70px'/>
+              <Logo width='100px'/>
             </Link>
           </div>
-          <ul className='flex ml-auto'>
+
+          {/* navitems */}
+          <ul className='flex items-center space-x-3'> 
               
-              {navItems.map((item)=>
-                item.active ? (
-                <li key={item.name}>
-                  <button
-                    onClick={()=> navigate(item.slug)}//go to that link
-                    className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
-                    >{item.name}
-                  </button>
-                </li>
-                ) : null
+              {navItems.map(
+                (item) => 
+                  item.active && (
+                    <li key={item.name}>
+                      <button
+                        onClick={() => navigate(item.slug)}
+                        className='px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition text-sm font-medium'
+                      >
+                        {item.name}
+                      </button>
+                    </li>
+                  )
               )}
 
               {/* logout button here */}
-              {authStatus && (//if authStatus true(authenticated) then display logout
+              {authenticated && (
                 <li>
                   <LogoutBtn/>
                 </li>
               )}
+
           </ul>
         </nav>
       </Container>
     </header>
   )
 }
-
-//common button UI design
 
 export default Header

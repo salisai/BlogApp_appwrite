@@ -1,19 +1,25 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import authService from '../../appwrite/config'
-import {logout} from '../../store/authSlice'
+import {logout} from '../../features/authSlice'
 
 const LogoutBtn = () => {
-    const dispatch = useDispatch()//usedispatch is a hook that allows you to dispatch actions to the redux store
-    const logoutHandler = () => {
-        authService.logout().then(()=>{
-            dispatch(logout())//that the code dispatches a logout() action to the redux store
-        }).catch(()=>{})//TODO:
-        //logout is promise
+    const dispatch = useDispatch()
+    
+    const logoutHandler = async() => {
+        try {
+          await authService.logout();
+          dispatch(logout());
+        } catch (error) {
+          console.log("Logout failed: ", error)
+        }
     }
 
   return (
-    <button className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'>
+    <button 
+    onClick={logoutHandler}
+    className='px-5 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition duration-200 text-sm font-medium'
+    >
         Logout
     </button>
   )
