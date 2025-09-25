@@ -7,15 +7,3 @@ const conf ={
 }
 
 export default conf 
-
-
-//configuration
-//thora tricky concept
-
-//dependency lock nahi karna what if you change 
-//your database in future\
-//vendor locking
-
-
-//services => classes
-//yaha say hum methods export kartay hai
