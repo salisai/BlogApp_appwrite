@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState =  {
-    posts: [],
-    status: false
+    posts: [],//no posts 
+    status: false,
 }
 
 const postSlice = createSlice({
@@ -17,7 +17,7 @@ const postSlice = createSlice({
             state.posts.push(action.payload);
         },
         deletePost:(state, action)=>{
-            state.posts = state.posts.filter(post => post.id !== action.payload)
+            state.posts = state.posts.filter(post => post.$id !== action.payload)
         },
 
     }
