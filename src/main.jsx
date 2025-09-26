@@ -7,13 +7,10 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthLayout, Login } from "./components/index.js";
-import Home from "./pages/Home.jsx";
-import Signup from "./pages/Signup.jsx"
-import AllPosts from "./pages/AllPost.jsx"
-import AddPost from "./pages/AddPost.jsx"
-import EditPost from "./pages/EditPost.jsx"
-import Post from "./pages/Post.jsx"
+import { AuthLayout} from "./components/index.js";
+import {AddPost, AllPost, Post, EditPost, Login, Signup, Home} from "./pages/index.js"
+
+
 //routing
 const router = createBrowserRouter([
   {
@@ -45,7 +42,7 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication>
             {" "}
-            <AllPosts />
+            <AllPost />
           </AuthLayout>
         ),
       },

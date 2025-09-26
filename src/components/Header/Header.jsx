@@ -22,9 +22,7 @@ const Header = () => {
         <nav className='flex items-center justify-between py-3'>
           {/* Logo */}
           <div className='mr-4'>
-            <Link to='/'>
               <Logo width='100px'/>
-            </Link>
           </div>
 
           {/* navitems */}

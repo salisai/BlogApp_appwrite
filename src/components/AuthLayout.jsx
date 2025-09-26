@@ -21,7 +21,7 @@ export default function Protected({children, authentication=true}){
    },[authStatus, navigate,authentication])
 
 
-   if (loading) {
+   if (loader) {
     return (
       <div className="flex items-center justify-center h-screen">
         <h1 className="text-xl font-semibold text-gray-700">Loading...</h1>

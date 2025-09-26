@@ -91,7 +91,7 @@ export class Service{
             queries,
             //pagaination 
         )
-      } catch (error) {
+      } catch (err) {
             console.error("Appwrite get posts error:", err.message);
             throw err;
       }

@@ -3,9 +3,11 @@ import {Container, PostForm } from "../components"
 import service from "../appwrite/config"
 import { useNavigate, useParams } from 'react-router-dom'
 
+
 const EditPost = () => {
-    const [post, setPosts] = useState(null)
-    //url sai value nikalna
+    const [post, setPost] = useState(null)
+    
+    //get value from URL
     const {slug} = useParams()
     const navigate = useNavigate()
 
@@ -13,7 +15,7 @@ const EditPost = () => {
         if(slug){
             service.getPost(slug).then((post)=>{
                 if(post){
-                    setPosts(post)
+                    setPost(post)
                 }
             })
         }else{

@@ -24,9 +24,9 @@ export default function Post() {
   }, [slug, navigate]);
 
   const deletePost = () => {
-    appwriteService.deletePost(post.$id).then((status) => {
+    service.deletePost(post.$id).then((status) => {
       if (status) {
-        appwriteService.deleteFile(post.featuredImage);
+        service.deleteFile(post.featuredimage);
         navigate("/");
       }
     });
@@ -35,9 +35,10 @@ export default function Post() {
   return post ? (
     <div className="py-8">
       <Container>
+        {/* image and author */}
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img
-            src={appwriteService.getFilePreview(post.featuredImage)}
+            src={service.getFilePreview(post.featuredimage)}
             alt={post.title}
             className="rounded-xl"
           />
@@ -55,6 +56,7 @@ export default function Post() {
             </div>
           )}
         </div>
+        {/* title and content */}
         <div className="w-full mb-6">
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>
