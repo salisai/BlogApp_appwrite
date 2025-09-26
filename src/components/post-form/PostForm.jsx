@@ -5,47 +5,49 @@ import service from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
 const PostForm = ({ post }) => {
-  //useform give some capabilities
-  //control => to grab all the control from RTE
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
-      defaultValues: {//jho bhi e form use karega values udhar sai ayegi
+      defaultValues: {
         title: post?.title || "",
-        slug: post?.slug || "",
+        slug: post?.slug || "", 
         content: post?.content || "",
         status: post?.status || "active",
       },
     });
-  //get user data from store
+
+
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.userData);
  
   const submit = async (data) => {
-    //two case if post hai or nahi hai
     if (post) {
+      //update post
       const file = data.image[0]
         ? service.uploadFile(data.image[0])
         : null;
 
       if (file) {
-        service.deleteFile(post.featuredImage);
+        service.deleteFile(post.featuredimage);
       }
 
       const dbPost = await service.updatePost(post.$id, {
         ...data,
-        featuredImage: file ? file.$id : undefined,
-
-        if(dbPost) {
-          navigate(`/post/${dbPost.$id}`);
-        },
+        featuredimage: file ? file.$id : undefined,
       });
+
+      if(dbPost) {
+        navigate(`/post/${dbPost.$id}`);
+      };
+
     } else {
-      const file = await service.uploadFile(data.image[0]);
+      //create new post
+      const file = await service.uploadFile(data?.image[0]);
 
       if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
+        data.featuredimage = file.$id;
+        
         const dbPost = await service.createPost({
           ...data,
           userId: userData.$id,
@@ -58,28 +60,31 @@ const PostForm = ({ post }) => {
     }
   };
 
-  //
+  //auto generate slug from title, make it SEO friendly
   const slugTransform = useCallback((value) => {
     if (value && typeof value === "string")
        return value
         .trim()
         .toLowerCase()
-        .replace(/^[a-zA-Z\d\s]+/g, "-")//un ko chor ka - say replace karo
+        .replace(/[^a-z0-9]+/g, "-")
         .replace(/\s/g, "-");
 
     return "";
   }, []);
 
+
   React.useEffect(() => {
+    //changes the input trigger the callback
     const subscription = watch((value, { name }) => {
-      //slug wale field ki andar 
-      if (name === "slug") {
-        setValue("slug", slugTransform(value.title, { shouldValidate: true }));
+      if (name === "title") {
+        setValue("slug", slugTransform(value.title, 
+          { shouldValidate: true }
+        ));
       }
 
     });
 
-    //for optimization purposes
+    //clean up for optimization, prevent memory leaks
     return () => {
       subscription.unsubscribe();
     };
@@ -94,17 +99,20 @@ const PostForm = ({ post }) => {
           className="mb-4"
           {...register("title", { required: true })}
         />
+
         <Input
           label="Slug :"
           placeholder="Slug"
           className="mb-4"
           {...register("slug", { required: true })}
+          
           onInput={(e) => {
             setValue("slug", slugTransform(e.currentTarget.value), {
               shouldValidate: true,
             });
           }}
         />
+
         <RTE
           label="Content :"
           name="content"
@@ -112,6 +120,7 @@ const PostForm = ({ post }) => {
           defaultValue={getValues("content")}
         />
       </div>
+
       <div className="w-1/3 px-2">
         <Input
           label="Featured Image :"
@@ -123,18 +132,20 @@ const PostForm = ({ post }) => {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={service.getFilePreview(post.featuredimage)}
               alt={post.title}
               className="rounded-lg"
             />
           </div>
         )}
+
         <Select
           options={["active", "inactive"]}
           label="Status"
           className="mb-4"
           {...register("status", { required: true })}
         />
+
         <Button
           type="submit"
           bgColor={post ? "bg-green-500" : undefined}
@@ -142,6 +153,7 @@ const PostForm = ({ post }) => {
         >
           {post ? "Update" : "Submit"}
         </Button>
+
       </div>
     </form>
   );

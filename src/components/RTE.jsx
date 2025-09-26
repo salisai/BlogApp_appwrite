@@ -12,14 +12,14 @@ const RTE = ({name, control, label, defaultValue=""}) => {
          name={name || "content"}
          control={control}
          render={({field: {onChange}})=>(
-            
+            //element to render, here editor
             <Editor
              initialValue={defaultValue}
              onEditorChange={onChange}
              init={{
                  inititalValue: defaultValue,
                  height: 500,
-                 menubar: false,
+                 menubar: true,
                  plugins: [
                      'advlist autolink lists link image charmap print preview anchor',
                      'searchreplace visualblocks code fullscreen',
